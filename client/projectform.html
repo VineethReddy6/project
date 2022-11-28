@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+      :root {
+        --app-bg: #c6b4fa;
+        --form-bg: #fff;
+        --focus: #faaf00;
+        --main-text: #030001;
+        --secondary-bg: #ebecf0;
+        --focus-text: grey;
+        --warning: #d0342c;
+        --input-warning: red;
+        --box-shadow: 2px 2px 15px 0px rgba(87, 83, 87, 1);
+        --form-padding: 20px;
+        --input-padding: 10px;
+        --label-padding: 8px;
+        --input-margin: 25px;
+      }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: "Roboto", sans-serif;
+        background: var(--app-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100vw;
+      }
+      .wrapper {
+        width: 500px;
+        max-width: 100%;
+        border-radius: 5px;
+        -webkit-box-shadow: var(--box-shadow);
+        -moz-box-shadow: var(--box-shadow);
+        box-shadow: var(--box-shadow);
+        background: var(--form-bg);
+      }
+      header {
+        font-family: "Roboto", sans-serif;
+        padding: var(--form-padding);
+        font-size: 2.5rem;
+        border-top-left-radius: 5px;
+        border-top-right-radius: 5px;
+        text-transform: capitalize;
+      }
+      .form {
+        font-family: "Roboto", sans-serif;
+        padding: var(--form-padding);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+      label {
+        font-family: "Roboto", sans-serif;
+        color: var(--main-text);
+        text-transform: capitalize;
+        font-size: 1rem;
+        padding: var(--label-padding);
+      }
+
+      input {
+        font-family: "Roboto", sans-serif;
+        color: var(--sub-text);
+        padding: var(--input-padding);
+        margin: 0px 0px var(--input-margin) var(--label-padding);
+        font-size: 0.8rem;
+        font-weight: 500;
+        width: 90%;
+        border-radius: 3px;
+        border: 2px solid var(--secondary-bg);
+      }
+      input:focus {
+        font-family: "Roboto", sans-serif;
+        color: var(--focus-text);
+        outline-color: var(--focus);
+      }
+      button {
+        margin: 0 auto;
+        border: none;
+        background: var(--focus);
+        color: var(--main-text);
+        padding: 10px;
+        border-radius: 8px;
+        font-size: 1rem;
+        text-transform: capitalize;
+        width: 30%;
+      }
+      .warning {
+        visibility: hidden;
+        color: var(--warning);
+        width: 90%;
+        padding: 2px;
+        margin-left: var(--label-padding);
+        font-size: 0.8rem;
+        margin-top: -10px;
+      }
+      .input-warning {
+        border-radius: 3px;
+        border: 2px solid var(--input-warning);
+      }
+      .success {
+        border: 2px solid green;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header id="header"><center>Enter Details</center></header>
+      <form id="form" class="form">
+        <label for="user_name" id="label">Project Title</label>
+        <input
+          type="text"
+          id="projectId"
+          name="user-name"
+          placeholder="Enter Project Name"
+        />
+        <label for="email" id="label">Team Leader</label>
+        <input
+          type="text"
+          id="teamleaderId"
+          name="email"
+          placeholder="Enter Team Leader Name"
+        />
+        <label for="email" id="label">Teammates Names</label>
+        <input
+          type="text"
+          id="teammatesId"
+          name="email"
+          placeholder="Enter Team mates Names Separated by commas"
+        />
+        <label for="password" id="label">Paste project report link</label>
+        <input
+          type="text"
+          id="linkId"
+          name="password"
+          placeholder="Paste here"
+        />
+      </form>
+      <center><h3 id="headingId" style="visibility: hidden;">uploaded successfully</h3></center>
+      <center>
+        <button id="submit" style="margin-bottom: 5px" onclick="go()">
+          go!
+        </button>
+      </center>
+    </div>
+    <script>
+      function go() {
+        let p = document.getElementById("projectId").value;
+        let tl = document.getElementById("teamleaderId").value;
+        let tm = document.getElementById("teammatesId").value;
+        let l = document.getElementById("linkId").value;
+        // console.log(project, teamleader, teammates, link);
+        let proj = {
+          project:p,
+          teamleader:tl,
+          teammates:tm,
+          link:l
+        };
+        fetch("http://localhost:5000/addproject", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify(proj),
+        }).then();
+        document.getElementById("headingId").style.visibility = "visible";
+      }
+    </script>
+  </body>
+</html>
